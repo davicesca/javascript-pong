@@ -64,6 +64,10 @@ export function draw() {
 
     drawNet();
 
+    // Scores
+    colorText(playerScore, '18px', 20, 40, 'white');
+    colorText(enemyScore, '18px', canvas.width-40, 40, 'white');
+
     // Player Paddle
     colorRect(0, playerY, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
 
