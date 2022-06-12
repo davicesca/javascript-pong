@@ -23,7 +23,7 @@ let enemyScore = 0;
 let ballX = 50;
 let ballSpeedX = 5;
 let ballY = 50;
-let ballSpeedY = 5;
+let ballSpeedY = 2.5;
 
 /* CORE FUNCTIONS */
 export function load() {
@@ -109,7 +109,9 @@ function ballMovement() {
 
 /* Verifies if ball collided with sides */
 function sideCollision(paddleY) {
-    if(ballY >= paddleY && ballY <= paddleY+PADDLE_HEIGHT) {
+    if(ballY+10 >= paddleY && ballY-10 <= paddleY+PADDLE_HEIGHT) {
+        const DELTA_Y = ballY - (paddleY + PADDLE_HEIGHT/2);
+        ballSpeedY = DELTA_Y * 0.2;
         return false;
     }
     ballReset();

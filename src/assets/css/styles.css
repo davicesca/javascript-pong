@@ -17,4 +17,5 @@ body {
 
 .game-canvas {
     border: 1px solid #FFF;
+    box-shadow: 0 10px 20px 0 rgba(255, 255, 255, 0.08);
 }
