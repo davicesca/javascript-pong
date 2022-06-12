@@ -15,6 +15,8 @@ let playerScore = 0;
 
 // Enemy Variables
 let enemyY = 250;
+const ENEMY_SPEED = 5;
+const ENEMY_REACTION_TIME = 30;
 let enemyScore = 0;
 
 // Ball Variables
@@ -39,6 +41,7 @@ export function update() {
         return;
     }
     ballMovement();
+    enemyMovement();
 }
 
 export function draw() {
@@ -70,6 +73,14 @@ export function draw() {
 }
 
 /* GAMEPLAY FUNCTIONS */
+
+function enemyMovement() {
+    if(enemyY+PADDLE_HEIGHT/2 < ballY-ENEMY_REACTION_TIME) {
+        enemyY += ENEMY_SPEED;
+    } else if(enemyY+PADDLE_HEIGHT/2 > ballY+ENEMY_REACTION_TIME) {
+        enemyY -= ENEMY_SPEED;
+    }
+}
 
 /* All code related with ball movement  */
 function ballMovement() {
