@@ -68,6 +68,31 @@ export function draw() {
         return;
     }
     else if(gameMode === 2) { // Win Screen
+
+        let feedback = {
+            content: '',
+            color: ''
+        };
+        if(playerScore >= 3) {
+            feedback.content = 'WIN!';
+            feedback.color = 'lightgreen';
+        } else {
+            feedback.content = 'LOSE!';
+            feedback.color = 'red';
+        }
+
+        const feedbackTxt = `YOU ${feedback.content}`;
+        colorText(feedbackTxt, '28px', 
+        (canvas.width-canvasContext.measureText(feedbackTxt).width)/2,
+        canvas.height/2 - 40, 
+        feedback.color);
+
+        const restartTxt = 'CLICK TO RESTART!';
+        colorText(restartTxt, '28px', 
+        (canvas.width-canvasContext.measureText(restartTxt).width)/2,
+        canvas.height/2 + 40, 
+        'white');
+
         return;
     }
 
@@ -108,12 +133,14 @@ function ballMovement() {
         ballSpeedX *= -1;
         if(sideCollision(enemyY)) {
             playerScore++;
+            checkWin();
         }
     }
     else if(ballX < 0) {
         ballSpeedX *= -1;
         if(sideCollision(playerY)) {
             enemyScore++;
+            checkWin();
         }
     }
 
@@ -131,6 +158,12 @@ function sideCollision(paddleY) {
     }
     ballReset();
     return true;
+}
+
+function checkWin() {
+    if(playerScore >= 3 || enemyScore >= 3) {
+        gameMode = 2;
+    }
 }
 
 /* Reset ball's position to center */
@@ -169,7 +202,12 @@ function colorCircle(x, y, radius, color) {
 }
 
 function handleMouseClick() {
-    if(gameMode === 0 || gameMode === 2) {
+    if(gameMode === 0) {
+        gameMode = 1;
+    }
+    else if(gameMode === 2) {
+        playerScore = 0;
+        enemyScore = 0;
         gameMode = 1;
     }
 }
