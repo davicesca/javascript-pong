@@ -2,6 +2,17 @@
 let canvas;
 let canvasContext;
 
+// Loading font
+let gameFont = new FontFace(
+  "pressstart2p",
+  "url(https://fonts.gstatic.com/s/pressstart2p/v14/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2)"
+);
+
+gameFont.load().then((font) => {
+  document.fonts.add(font);
+  console.log("Font loaded");
+});
+
 // Game Mode (0 = Menu; 1 = Game; 2 = Win Screen) 
 let gameMode = 0;
 
@@ -50,7 +61,7 @@ export function draw() {
 
     if(gameMode === 0) { // Main Menu
         const playTxt = 'CLICK ON SCREEN TO PLAY!';
-        colorText(playTxt, '32px', 
+        colorText(playTxt, '28px', 
         (canvas.width-canvasContext.measureText(playTxt).width)/2,
         canvas.height/2, 
         'white');
@@ -138,7 +149,7 @@ function drawNet() {
 
 /* Draws text on screen */
 function colorText(text, size, x, y, color) {
-    canvasContext.font= `${size} Arial`;
+    canvasContext.font= `${size} pressstart2p`;
     canvasContext.fillStyle = color;
     canvasContext.fillText(text, x, y);
 }
