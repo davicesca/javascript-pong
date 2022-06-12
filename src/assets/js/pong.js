@@ -62,6 +62,8 @@ export function draw() {
 
     // Game
 
+    drawNet();
+
     // Player Paddle
     colorRect(0, playerY, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
 
@@ -121,6 +123,12 @@ function ballReset() {
 }
 
 /* OTHER FUNCTIONS */
+
+function drawNet() {
+    for(let i = 30; i < canvas.height-20; i += 40) {
+        colorRect(canvas.width/2-1, i, 2, 20, 'white');   
+    }
+}
 
 /* Draws text on screen */
 function colorText(text, size, x, y, color) {
