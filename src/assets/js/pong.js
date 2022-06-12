@@ -28,6 +28,10 @@ export function load() {
     canvas = document.querySelector('.game-canvas');
     canvasContext = canvas.getContext('2d');
     canvas.addEventListener('mousedown', handleMouseClick);
+    canvas.addEventListener('mousemove', (e) => {
+        const MOUSE_POS = calculateMousePos(e);
+        playerY = MOUSE_POS.y - PADDLE_HEIGHT/2;
+    });
 }
 
 export function update() {
@@ -56,10 +60,10 @@ export function draw() {
     // Game
 
     // Player Paddle
-    colorRect(PADDLE_THICKNESS, playerY, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
+    colorRect(0, playerY, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
 
     // AI/Enemy Paddle
-    colorRect(canvas.width - PADDLE_THICKNESS*2, enemyY, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
+    colorRect(canvas.width - PADDLE_THICKNESS, enemyY, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
     
     // Ball
     colorCircle(ballX, ballY, 10, 'white');
@@ -72,14 +76,14 @@ function ballMovement() {
     ballX += ballSpeedX;
     ballY += ballSpeedY;
 
-    if(ballX > canvas.width){
-        // ballSpeedX *= -1;
+    if(ballX > canvas.width) {
+        ballSpeedX *= -1;
         if(sideCollision(enemyY)) {
             playerScore++;
         }
     }
     else if(ballX < 0) {
-        // ballSpeedX *= -1;
+        ballSpeedX *= -1;
         if(sideCollision(playerY)) {
             enemyScore++;
         }
@@ -93,7 +97,6 @@ function ballMovement() {
 /* Verifies if ball collided with sides */
 function sideCollision(paddleY) {
     if(ballY >= paddleY && ballY <= paddleY+PADDLE_HEIGHT) {
-        ballSpeedX *= -1;
         return false;
     }
     ballReset();
@@ -133,4 +136,17 @@ function handleMouseClick() {
     if(gameMode === 0 || gameMode === 2) {
         gameMode = 1;
     }
+}
+
+/* Gets mouse position on canvas */
+/* WARNING: Requires an event listener */
+function calculateMousePos(e) {
+    let rect = canvas.getBoundingClientRect();
+    let root = document.documentElement;
+    let mouseX = e.clientX - rect.left - root.scrollLeft;
+    let mouseY = e.clientY - rect.top - root.scrollTop;
+    return {
+        x: mouseX,
+        y: mouseY
+    };
 }
